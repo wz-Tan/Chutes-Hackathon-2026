@@ -1,26 +1,289 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+    --teal-50: #e1f5ee;
+    --teal-100: #9fe1cb;
+    --teal-200: #5dcaa5;
+    --teal-600: #0f6e56;
+    --teal-700: #0d5e49;
+    --teal-800: #085041;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+    font-family:
+        -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    background: #f8faf9;
+    color: #1a1a1a;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar {
+    width: 4px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 4px;
+}
+
+/* ── NAV ── */
+.nav-tab {
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 450;
+    color: #6b7280;
+    cursor: pointer;
+    transition: all 0.15s;
+    border: none;
+    background: transparent;
+}
+.nav-tab:hover {
+    background: #f0f9f5;
+    color: var(--teal-600);
+}
+.nav-tab.active {
+    background: var(--teal-50);
+    color: var(--teal-600);
+    font-weight: 500;
+}
+
+/* ── BUTTONS ── */
+.btn-ghost {
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 13.5px;
+    font-weight: 450;
+    color: #374151;
+    cursor: pointer;
+    border: 1px solid #e5e7eb;
+    background: #fff;
+    transition: all 0.15s;
+}
+.btn-ghost:hover {
+    background: #f9fafb;
+    border-color: #d1d5db;
+}
+.btn-primary {
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: #fff;
+    cursor: pointer;
+    border: none;
+    background: var(--teal-600);
+    transition: all 0.15s;
+}
+.btn-primary:hover {
+    background: var(--teal-700);
+}
+
+/* ── SIDEBAR ── */
+.new-chat-btn {
+    width: 100%;
+    padding: 7px 10px;
+    border-radius: 8px;
+    font-size: 13px;
+    color: var(--teal-600);
+    border: 1px dashed var(--teal-100);
+    background: var(--teal-50);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.15s;
+}
+.new-chat-btn:hover {
+    background: #c8eede;
+}
+.chat-item {
+    padding: 9px 10px;
+    border-radius: 9px;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+.chat-item:hover {
+    background: #f0f9f5;
+}
+.chat-item.active {
+    background: var(--teal-50);
+}
+.chat-item-title {
+    font-size: 13.5px;
+    font-weight: 450;
+    color: #374151;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.chat-item.active .chat-item-title {
+    color: var(--teal-600);
+    font-weight: 500;
+}
+
+/* ── CHAT MESSAGES ── */
+.msg-bubble-ai {
+    padding: 10px 14px;
+    border-radius: 4px 14px 14px 14px;
+    font-size: 14px;
+    line-height: 1.6;
+    background: #fff;
+    border: 1px solid #e5ede9;
+    color: #1f2937;
+}
+.msg-bubble-user {
+    padding: 10px 14px;
+    border-radius: 14px 4px 14px 14px;
+    font-size: 14px;
+    line-height: 1.6;
+    background: var(--teal-600);
+    color: #fff;
+}
+
+/* ── CHAT INPUT ── */
+.chat-input-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #f8faf9;
+    border: 1px solid #dde8e3;
+    border-radius: 14px;
+    padding: 8px 12px;
+}
+.chat-input-wrap input {
+    flex: 1;
+    font-size: 14px;
+    border: none;
+    background: transparent;
+    outline: none;
+    color: #1f2937;
+}
+
+/* ── FOLDER CARDS ── */
+.folder-card {
+    background: #fff;
+    border: 1px solid #e5ede9;
+    border-radius: 14px;
+    overflow: hidden;
+    transition:
+        box-shadow 0.15s,
+        border-color 0.15s;
+}
+.folder-card:hover {
+    border-color: var(--teal-100);
+}
+.folder-icon-wrap {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: var(--teal-50);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.file-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: 9px;
+    cursor: pointer;
+    transition: background 0.12s;
+}
+.file-item:hover {
+    background: #f0f9f5;
+}
+.file-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+.file-icon.pdf {
+    background: #fef2f2;
+    color: #ef4444;
+}
+.file-icon.ppt {
+    background: #fff7ed;
+    color: #f97316;
+}
+.file-icon.doc {
+    background: #eff6ff;
+    color: #3b82f6;
+}
+.file-icon.zip {
+    background: #f5f3ff;
+    color: #8b5cf6;
+}
+
+.file-badge {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 20px;
+    flex-shrink: 0;
+}
+.badge-new {
+    background: var(--teal-50);
+    color: var(--teal-600);
+}
+.badge-due {
+    background: #fff7ed;
+    color: #c2410c;
+}
+.badge-done {
+    background: #f0fdf4;
+    color: #16a34a;
+}
+.badge-pending {
+    background: #fefce8;
+    color: #a16207;
+}
+
+/* ── MODAL ── */
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.modal {
+    background: #fff;
+    border-radius: 18px;
+    padding: 28px;
+    width: 380px;
+    max-width: 90vw;
+}
+.modal-input {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1px solid #e5e7eb;
+    border-radius: 9px;
+    font-size: 14px;
+    color: #1f2937;
+    outline: none;
+    transition: border-color 0.15s;
+    font-family: inherit;
+}
+.modal-input:focus {
+    border-color: var(--teal-200);
 }
