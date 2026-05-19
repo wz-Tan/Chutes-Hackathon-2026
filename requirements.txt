@@ -1,2 +1,10 @@
+# frontend
 supabase
+
+# Auto browser
+playwright
 dotenv
+
+# Mimic req
+bs4
+requests
