@@ -38,9 +38,9 @@ class MyBot:
         await self.page.goto(url, wait_until='domcontentloaded')
 
     async def login(self):
-        username = os.getenv('username')
+        student_id = os.getenv('student_id')
         password = os.getenv('password')
-        await self.page.locator('input[name="student_uid"]').fill(username)
+        await self.page.locator('input[name="student_uid"]').fill(student_id)
         await self.page.locator('input[name="password"]').fill(password)
         await self.page.locator('#submit').click()
 
