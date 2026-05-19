@@ -40,7 +40,9 @@ class MyBot:
     async def login(self):
         username = os.getenv('username')
         password = os.getenv('password')
-        pass
+        await self.page.locator('input[name="student_uid"]').fill(username)
+        await self.page.locator('input[name="password"]').fill(password)
+        await self.page.locator('#submit').click()
 
     @classmethod
     async def shutdown(cls):
@@ -56,8 +58,12 @@ class MyBot:
 async def main():
     async with MyBot() as bot:
         async with bot.session() as s:
+            await s.navigate('https://izone.sunway.edu.my/login')
             await s.login()
-            await s.navigate('https://elearn.sunway.edu.my/ultra/stream')
+            await s.navigate('https://izone.sunway.edu.my/finance')
+            await s.page.wait_for_load_state("domcontentloaded")
+            content = await s.page.locator('#infoHeader').inner_text()
+            print(content)
 
         # Browser is still alive — open another session reusing it
         # async with bot.session() as s:
