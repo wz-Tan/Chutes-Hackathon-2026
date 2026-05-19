@@ -1,3 +1,6 @@
+# frontend
+supabase
+
 # Auto browser
 playwright
 dotenv
