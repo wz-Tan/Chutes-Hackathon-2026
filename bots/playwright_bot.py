@@ -8,7 +8,7 @@ import os
 load_dotenv()
 
 
-class MyBot:
+class PlaywrightBot:
     _playwright = None
     _browser = None
 
@@ -56,7 +56,7 @@ class MyBot:
 
 # Example usage
 async def main():
-    async with MyBot() as bot:
+    async with PlaywrightBot() as bot:
         async with bot.session() as s:
             await s.navigate('https://izone.sunway.edu.my/login')
             await s.login()
@@ -69,7 +69,7 @@ async def main():
         # async with bot.session() as s:
         #     await s.navigate('https://example.com/reports')
 
-    await MyBot.shutdown()
+    await PlaywrightBot.shutdown()
 
 
 if __name__ == '__main__':
