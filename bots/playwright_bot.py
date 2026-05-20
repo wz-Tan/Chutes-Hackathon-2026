@@ -17,9 +17,9 @@ class PlaywrightBot:
         self.page = None
 
     async def __aenter__(self):
-        if MyBot._browser is None:
-            MyBot._playwright = await async_playwright().start()
-            MyBot._browser = await MyBot._playwright.chromium.launch(headless=self.headless)
+        if PlaywrightBot._browser is None:
+            PlaywrightBot._playwright = await async_playwright().start()
+            PlaywrightBot._browser = await PlaywrightBot._playwright.chromium.launch(headless=self.headless)
         return self
 
     async def __aexit__(self, *args):
@@ -27,7 +27,7 @@ class PlaywrightBot:
 
     @asynccontextmanager
     async def session(self):
-        self.page = await MyBot._browser.new_page()
+        self.page = await PlaywrightBot._browser.new_page()
         try:
             yield self
         finally:
