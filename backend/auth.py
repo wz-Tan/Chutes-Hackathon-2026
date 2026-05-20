@@ -21,3 +21,7 @@ def sign_out():
 # Get current user
 def get_user():
     return client.auth.get_user()
+
+
+def get_user_id():
+    return client.auth.get_user().user.id
