@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 load_dotenv()
 
 
-class SessionBot:
+class IzoneBot:
     _session = None
 
     def __init__(self):
@@ -50,7 +50,7 @@ class SessionBot:
         return 'not valid' not in el.text
 
 def main():
-    bot = SessionBot()
+    bot = IzoneBot()
     bot.login()
     response = bot.checkin('12345')
     b = bot.is_checkin_success(response.text)

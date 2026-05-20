@@ -8,7 +8,7 @@ import os
 load_dotenv()
 
 
-class MyBot:
+class PlaywrightBot:
     _playwright = None
     _browser = None
 
@@ -17,9 +17,9 @@ class MyBot:
         self.page = None
 
     async def __aenter__(self):
-        if MyBot._browser is None:
-            MyBot._playwright = await async_playwright().start()
-            MyBot._browser = await MyBot._playwright.chromium.launch(headless=self.headless)
+        if PlaywrightBot._browser is None:
+            PlaywrightBot._playwright = await async_playwright().start()
+            PlaywrightBot._browser = await PlaywrightBot._playwright.chromium.launch(headless=self.headless)
         return self
 
     async def __aexit__(self, *args):
@@ -27,7 +27,7 @@ class MyBot:
 
     @asynccontextmanager
     async def session(self):
-        self.page = await MyBot._browser.new_page()
+        self.page = await PlaywrightBot._browser.new_page()
         try:
             yield self
         finally:
@@ -56,7 +56,7 @@ class MyBot:
 
 # Example usage
 async def main():
-    async with MyBot() as bot:
+    async with PlaywrightBot() as bot:
         async with bot.session() as s:
             await s.navigate('https://izone.sunway.edu.my/login')
             await s.login()
@@ -69,7 +69,7 @@ async def main():
         # async with bot.session() as s:
         #     await s.navigate('https://example.com/reports')
 
-    await MyBot.shutdown()
+    await PlaywrightBot.shutdown()
 
 
 if __name__ == '__main__':
