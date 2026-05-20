@@ -34,10 +34,10 @@ class ElearnBot:
             await self.page.close()
             self.page = None
 
-    async def navigate(self, url: str):
+    async def navigate(self, url: str) -> None:
         await self.page.goto(url, wait_until='domcontentloaded')
 
-    async def login(self):
+    async def login(self) -> None:
         student_id = os.getenv('student_id')
         password = os.getenv('password')
 
@@ -50,38 +50,29 @@ class ElearnBot:
         await self.page.locator('#passwordInput').fill(password)
         await self.page.locator('#submitButton').click()
     
-    
-
-    async def download_file(self):
+    async def download_file(self) -> None:
         await self.page.wait_for_load_state('load')
 
-        # Step 1: Expand all folders first
+        # Expand all folders
         folders = self.page.locator('[data-analytics-id="content.item.folder.toggleFolder.button"]')
-        folder_count = await folders.count()
-        
-        for i in range(folder_count):
+        for i in range(await folders.count()):
             await folders.nth(i).click()
-            await self.page.wait_for_timeout(500)  # wait for folder to expand
-
-        # Step 2: Click all download buttons
-        download_buttons = self.page.locator('[data-analytics-id="components.directives.content-item-base.overflowMenu.showMenu.button"]')
-        button_count = await download_buttons.count()
-        print(button_count)
-
-        for i in range(button_count):
-            # Open the overflow menu
-            await download_buttons.nth(i).click()
             await self.page.wait_for_timeout(300)
 
-            # Click the actual Download option in the menu
+        # Click all download buttons
+        three_dots = self.page.locator('[data-analytics-id="components.directives.content-item-base.overflowMenu.showMenu.button"]')
+        for i in range(await three_dots.count()):
+            # Open overflow menu
+            await three_dots.nth(i).click()
+
+            # Click download button in menu
             async with self.page.expect_download() as download_info:
                 await self.page.locator('[data-analytics-id="components.directives.content-item-base.overflowMenu.global.download.link"]').click()
 
-            
+            # Download
             download = await download_info.value
-            save_dir = "elearn-documents/"
-            await download.save_as(os.path.join(save_dir, download.suggested_filename))
-            print(f"Saved: {download.suggested_filename}")
+            await download.save_as(os.path.join('elearn-documents/', download.suggested_filename))
+            print(f'Saved: {download.suggested_filename}')
 
     @classmethod
     async def shutdown(cls):
@@ -100,19 +91,12 @@ async def main():
             await s.navigate('https://elearn.sunway.edu.my/?new_loc=%2Fultra%2Fstream')
             await s.page.locator('#agree_button').click()
             await s.login()
-            # await s.page.wait_for_load_state('load')
             await s.page.wait_for_load_state('domcontentloaded')
 
             # DIP
             await s.navigate('https://elearn.sunway.edu.my/ultra/courses/_66701_1/outline')
             await s.page.wait_for_load_state('networkidle')
             await s.download_file()
-
-            
-            # feed = s.page.locator('.activity-feed').first
-            # await feed.wait_for(state='visible')
-            # for item in await feed.all():
-            #     print(await item.text_content(), end='\n\n\n')
 
         # Browser is still alive — open another session reusing it
         # async with bot.session() as s:
